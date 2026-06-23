@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS Market_Stall_Allocation_System;
+CREATE DATABASE Market_Stall_Allocation_System;
 USE Market_Stall_Allocation_System;
 
 -- Creating the core tables for the system
@@ -158,35 +158,3 @@ INSERT INTO Payment (Trader_ID, Amount, Payment_Date, Payment_Method, Reference_
 insert into Allocation (Store_ID, Trader_ID, Allocation_Date, Expiry_Date) values
 (2, 2, '2026-01-01', '2026-12-31'),
 (4, 4, '2026-01-01', '2026-12-31');
-
-
--- Required assignment queries
--- 1. query to see total payments per trader
-select t.Name, sum(p.Amount) as 'Total Paid' 
-from Payment p
-join Trader t on p.Trader_ID = t.Trader_ID
-group by t.Name;
-
--- 2. query to see store list and market details
-select s.Store_Number, s.Location, s.Size, s.Status, m.Market_Name 
-from Store s
-join Market m on s.Market_ID = m.Market_ID;
-
--- 3. update query sample
-update Store 
-set Status = 'Maintenance' 
-where Store_Number = 'S001';
-
--- 4. delete query sample
-delete from Payment 
-where Reference_No = 'REF020';
-
-
--- User management assignments section
-create role if not exists 'Market_Admin';
-grant all privileges on Market_Stall_Allocation_System.* to 'Market_Admin';
-
-create role if not exists 'Market_Observer';
-grant select on Market_Stall_Allocation_System.* to 'Market_Observer';
-
-flush privileges; 
